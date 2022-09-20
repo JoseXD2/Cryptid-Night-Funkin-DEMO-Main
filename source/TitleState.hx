@@ -51,8 +51,6 @@ typedef TitleData =
 }
 class TitleState extends MusicBeatState
 {
-		  
-		  
 	public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
 	public static var volumeDownKeys:Array<FlxKey> = [FlxKey.NUMPADMINUS, FlxKey.MINUS];
 	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
@@ -87,9 +85,6 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
-			  #if android
-	  FlxG.android.preventDefaultKeys = [BACK];
-	  #end
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
@@ -116,7 +111,7 @@ class TitleState extends MusicBeatState
 		#if CHECK_FOR_UPDATES
 		if(!closedState) {
 			trace('checking for update');
-			var http = new haxe.Http("");
+			var http = new haxe.Http("https://raw.githubusercontent.com/ShadowMario/FNF-PsychEngine/main/gitVersion.txt");
 			
 			http.onData = function (data:String)
 			{
@@ -346,7 +341,7 @@ class TitleState extends MusicBeatState
 		logoBl.shader = swagShader.shader;
 
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);
-		#if MODS_ALLOWED
+		#if (desktop && MODS_ALLOWED)
 		var path = "mods/" + Paths.currentModDirectory + "/images/titleEnter.png";
 		//trace(path, FileSystem.exists(path));
 		if (!FileSystem.exists(path)){
